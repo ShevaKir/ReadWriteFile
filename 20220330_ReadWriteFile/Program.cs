@@ -14,7 +14,14 @@ namespace _20220330_ReadWriteFile
         {
             const string NAME_FILE = "players.csv";
 
-            IAccessStoredge players = new FileAccessor(NAME_FILE);
+            IAccessStoredge players = new FileAccessor(NAME_FILE);            
+
+            foreach (var item in players.GetPlayers())
+            {
+                Console.WriteLine(item);
+            }
+
+            players.Add(UI.GetPlayer());
 
             foreach (var item in players.GetPlayers())
             {
@@ -24,7 +31,7 @@ namespace _20220330_ReadWriteFile
             Console.ReadKey();
 
             //FileInfo fileInfo = new FileInfo(NAME_FILE);
-
+            
             //if (fileInfo.Exists)
             //{
             //    fileInfo.Delete();

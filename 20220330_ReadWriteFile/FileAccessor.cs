@@ -10,7 +10,7 @@ namespace _20220330_ReadWriteFile
 {
     class FileAccessor : IAccessStoredge
     {
-        string _path;
+        public string _path;
 
         public FileAccessor(string path)
         {
@@ -18,16 +18,15 @@ namespace _20220330_ReadWriteFile
         }
 
         public void Add(Player player)
-        {
-            File.AppendAllText(_path, player.ToString());
+        {       
+            File.AppendAllText(_path, player.ToString() + '\n');
         }
 
         IEnumerable<Player> IAccessStoredge.GetPlayers()
         {
             string[] parseDataPlayer = File.ReadAllText(_path).Split('\n');
-            List<Player> players = new List<Player>(parseDataPlayer.Length);
 
-            for (int i = 0; i < parseDataPlayer.Length; i++)
+            for (int i = 0; i < parseDataPlayer.Length - 1; i++)
             {
                 string[] player = parseDataPlayer[i].Split(';');
 
@@ -37,13 +36,10 @@ namespace _20220330_ReadWriteFile
                 currentPlayer.Surname = player[1];
                 currentPlayer.IdTeam = int.Parse(player[2]);
                 currentPlayer.NumberPlayer = int.Parse(player[3]);
-                Position role = (Position)Enum.Parse(typeof(Position), player[4]);
-                currentPlayer.Role = role;
+                currentPlayer.Role = (Position)Enum.Parse(typeof(Position), player[4]); ;
 
-                players.Add(currentPlayer);
+                yield return currentPlayer;
             }
-
-            return players;
         }
     }
 }
