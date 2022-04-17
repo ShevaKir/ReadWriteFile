@@ -10,7 +10,7 @@ namespace _20220330_ReadWriteFile
 {
     class FileAccessor : IAccessStoredge
     {
-        public string _path;
+        private string _path;
 
         public FileAccessor(string path)
         {
@@ -29,17 +29,24 @@ namespace _20220330_ReadWriteFile
             for (int i = 0; i < parseDataPlayer.Length - 1; i++)
             {
                 string[] player = parseDataPlayer[i].Split(';');
-
-                Player currentPlayer = new Player();
-
-                currentPlayer.Name = player[0];
-                currentPlayer.Surname = player[1];
-                currentPlayer.IdTeam = int.Parse(player[2]);
-                currentPlayer.NumberPlayer = int.Parse(player[3]);
-                currentPlayer.Role = (Position)Enum.Parse(typeof(Position), player[4]); ;
+                Player currentPlayer = SplitPropertiesPlayer(player);
 
                 yield return currentPlayer;
             }
         }
+
+        private Player SplitPropertiesPlayer(string[] player)
+        {
+            Player currentPlayer = new Player();
+
+            currentPlayer.Name = player[0];
+            currentPlayer.Surname = player[1];
+            currentPlayer.IdTeam = int.Parse(player[2]);
+            currentPlayer.NumberPlayer = int.Parse(player[3]);
+            currentPlayer.Role = (Position)Enum.Parse(typeof(Position), player[4]);
+
+            return currentPlayer;
+        }
+
     }
 }
